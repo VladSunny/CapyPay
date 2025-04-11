@@ -123,7 +123,7 @@ function Add() {
                     </tr>
 
                     <tr>
-                        <td className="text-center">Цена</td>
+                        <td className="text-center">Цена (общая)</td>
                         <td>
                             <input
                             type="number"
