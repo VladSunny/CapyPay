@@ -51,7 +51,7 @@ const TestLine = () => {
   };
 
   return (
-    <div style={{height: '400px', width: '600px'}}>
+    <div className='w-full px-5 md:w-1/2 h-1/2'>
       <h2>График данных</h2>
       <Line data={data} options={options} />
     </div>
