@@ -23,8 +23,8 @@ function Header() {
   return (
     <>
       <div className="z-10 top-0 w-full sticky">
-        <div className='navbar bg-base-200 flex flex-row justify-around w-full space-y-5'>
-            <div className='flex flex-row space-x-5 justify-center items-center bg-base-300 rounded-2xl p-5'>
+        <div className='navbar bg-base-200 flex flex-row justify-around items-center w-full py-5'>
+            <div className='flex flex-row justify-center items-center bg-base-300 rounded-2xl p-5'>
               <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl">
                 CapyPay
               </h1>
