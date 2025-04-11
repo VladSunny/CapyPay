@@ -30,9 +30,24 @@ function Add() {
     };
 
     // Функция для обработки отправки формы
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Здесь можно добавить логику для сохранения данных, например, в базу данных или localStorage
+
+        const { data, error } = await supabase.from('Payments').insert([
+            {
+                product_name: productName,
+                quantity: quantity,
+                price: price,
+                purchase_date: purchaseDate,
+                tags: tags
+            }
+        ])
+
+        if (error) {
+            console.error('Ошибка при добавлении покупки:', error);
+            return;
+        }
+
         console.log('Новая покупка:', { productName, quantity, price, purchaseDate, tags });
 
         // Очистка полей после отправки
@@ -135,7 +150,7 @@ function Add() {
                     </tr>
 
                     <tr>
-                    <td className="text-center sm:text-left">Теги</td>
+                    <td className="text-center">Теги</td>
                     <td>
                         <div className="flex flex-col space-y-2">
                         {/* Отображение текущих тегов */}
@@ -157,7 +172,7 @@ function Add() {
                             onChange={(e) => setTagInput(e.target.value)}
                             onKeyDown={addTag}
                             placeholder="Введите тег и нажмите Enter, запятую или пробел"
-                            className="input input-bordered w-full sm:w-auto"
+                            className="input input-bordered w-full"
                         />
                         </div>
                     </td>
