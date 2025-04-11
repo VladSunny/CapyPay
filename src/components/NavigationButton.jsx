@@ -34,27 +34,16 @@ function NavigationButton() {
 
   return (
     <>
-      <div className='navbar flex space-x-5'>
-          {session ? (
-              <button onClick={logOut} className="btn btn-sm md:btn-md btn-secondary">Logout</button>
-          ) : (
-              <button onClick={signUp} className="btn btn-sm md:btn-md btn-secondary">Login</button>
-          )}
-          {location.pathname !== "/" && (
-            <Link to="/">
-                <button className="btn btn-sm md:btn-md btn-secondary">Home</button>
-            </Link>
-          )}
-          {location.pathname !== "/studio" && session && (
-            <Link to="/studio">
-                <button className="btn btn-sm md:btn-md btn-secondary">Studio</button>
-            </Link>
-          )}
-          {location.pathname !== "/created-ideas" && session && (
-            <Link to="/created-ideas">
-                <button className="btn btn-sm md:btn-md btn-secondary">Created Ideas</button>
-            </Link>
-          )}
+      <div className='navbar flex justify-center space-x-10'>
+        <button className='btn btn-xl btn-secondary'>Рекомендации</button>
+        <button className='btn btn-xl btn-secondary'>Аналитика</button>
+        <button className='btn btn-xl btn-secondary'>Добавить</button>
+        <button className='btn btn-xl btn-secondary'>О сервисе</button>
+        {session ? (
+            <button onClick={logOut} className="btn btn-xl btn-primary">Logout</button>
+        ) : (
+            <button onClick={signUp} className="btn btn-xl btn-primary">Login</button>
+        )}
       </div>
     </>
   )

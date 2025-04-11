@@ -76,7 +76,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="flex card-actions justify-evenly pt-10">
+        {/* <div className="flex card-actions justify-evenly pt-10">
           <button className="btn btn-md md:btn-lg btn-soft btn-primary" onClick={() => updateTask("Truth")}>Next Truth</button>
           <button className="btn btn-md md:btn-lg btn-soft btn-info" onClick={() => updateTask("Random")}>Next Random</button>
           <button className="btn btn-md md:btn-lg btn-soft btn-secondary" onClick={() => updateTask("Dare")}>Next Dare</button>
@@ -92,7 +92,7 @@ function Home() {
           </div>
 
           <button className='btn btn-md md:btn-lg bg-orange-400 mt-10'>Send rating</button>
-        </div>
+        </div> */}
       </div>
     </>
   );

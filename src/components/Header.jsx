@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import supabase from '../supabase-client';
 import NavigationButton from './NavigationButton';
 
@@ -23,15 +23,17 @@ function Header() {
   return (
     <>
       <div className="z-0 top-0 w-full sticky">
-        <div className='navbar bg-base-200 flex justify-center h-20 md:h-30 w-full'>
-          <div className='flex flex-col justify-center h-full'>
-            <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl">
-              Truth Or Dare
-            </h1>
-            {session?.user && <p className="text-xl md:text-2xl">Hello, {session?.user?.user_metadata?.full_name}</p>}
+        <div className='navbar bg-base-200 flex flex-col w-full space-y-5'>
+          <div>
+            <div className='flex flex-row space-x-5 justify-center items-center bg-base-300 rounded-2xl ml-5 p-5'>
+              <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl">
+                CapyPay
+              </h1>
+            </div>
           </div>
+          <NavigationButton />
         </div>
-        <NavigationButton />
+
       </div>
     </>
   )
