@@ -22,16 +22,14 @@ function Header() {
 
   return (
     <>
-      <div className="z-0 top-0 w-full sticky">
-        <div className='navbar bg-base-200 flex flex-col w-full space-y-5'>
-          <div>
+      <div className="z-10 top-0 w-full sticky">
+        <div className='navbar bg-base-200 flex flex-row justify-around w-full space-y-5'>
             <div className='flex flex-row space-x-5 justify-center items-center bg-base-300 rounded-2xl p-5'>
               <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl">
                 CapyPay
               </h1>
             </div>
-          </div>
-          <NavigationButton />
+            <NavigationButton />
         </div>
 
       </div>
