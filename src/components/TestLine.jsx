@@ -47,6 +47,13 @@ const TestLine = () => {
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
       },
+      {
+        label: '# of Votes',
+        data: [2, 3, 4, 5, 6, 7],
+        backgroundColor: 'rgba(53, 162, 235, 0.2)',
+        borderColor: 'rgba(53, 162, 235, 1)',
+        borderWidth: 1,
+      },
     ],
   };
 
