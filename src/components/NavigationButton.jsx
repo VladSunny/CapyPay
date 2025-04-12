@@ -51,7 +51,7 @@ function NavigationButton() {
               <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Главная</button>
             </Link>
 
-            <Link to="/" className='w-full'>
+            <Link to="/recommendations" className='w-full'>
               <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Рекомендации</button>
             </Link>
 
