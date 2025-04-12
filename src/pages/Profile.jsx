@@ -181,7 +181,7 @@ function Profile() {
               </td>
             </tr>
             <tr>
-              <td className="text-center">Зарплата (месячная)</td>
+              <td className="text-center">Месячная зарплата</td>
               <td>
                 <input
                   type="number"
