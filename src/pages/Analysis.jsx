@@ -42,6 +42,10 @@ function Analysis() {
     fetchData();
   }, [session]);
 
+  if (!session) {
+    return <div>Loading...</div>;
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
