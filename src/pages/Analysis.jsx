@@ -235,8 +235,8 @@ function Analysis() {
 
       {pieChartData !== null && (
         <>
-          <div className="flex items-center justify-center w-full h-max flex-col">
-            <div className="flex items-center w-full md:w-1/3 px-2 h-max flex-col mb-5">
+          <div className="flex items-center justify-center w-full h-max flex-col md:flex-row">
+            <div className="flex items-center w-full md:w-1/3 px-2 h-max flex-col mb-5 md:mb-0">
               <PieChart chartTitle="Количество товаров" chartData={pieChartData?.quantity} />
             </div>
 
