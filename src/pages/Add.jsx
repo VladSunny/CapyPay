@@ -6,7 +6,7 @@ import '../styles/Add.css';
 
 function Add() {
   const [session, setSession] = useState(null);
-  const [productName, setProductName] = useState('');
+  // const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
@@ -68,7 +68,7 @@ function Add() {
 
     let totalRecordsAdded = 0;
 
-    const isFormFilled = productName && quantity && price && purchaseDate;
+    const isFormFilled = quantity && price && purchaseDate;
     if (isFormFilled) {
       const parsedQuantity = parseInt(quantity);
       if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
@@ -77,7 +77,6 @@ function Add() {
       }
 
       const formRecord = {
-        product_name: productName,
         quantity: parsedQuantity,
         price: parseFloat(price),
         purchase_date: purchaseDate,
@@ -187,7 +186,6 @@ function Add() {
     }
 
     if (isFormFilled) {
-      setProductName('');
       setQuantity('');
       setPrice('');
       setPurchaseDate('');
@@ -253,7 +251,7 @@ function Add() {
         className="z-0 bg-base-100 mx-2 md:w-5/6 xl:w-1/3 p-6 rounded-2xl shadow-xl mt-5 border border-base-300 transition-all duration-300 hover:shadow-2xl"
       >
         <div className="space-y-6">
-          <div className="flex items-center space-x-3">
+          {/* <div className="flex items-center space-x-3">
             <FaBox className="text-primary text-xl" />
             <input
               type="text"
@@ -262,7 +260,7 @@ function Add() {
               placeholder="Название товара"
               className="input input-bordered w-full focus:ring-2 focus:ring-primary"
             />
-          </div>
+          </div> */}
 
           <div className="flex items-center space-x-3">
             <FaBox className="text-primary text-xl" />
