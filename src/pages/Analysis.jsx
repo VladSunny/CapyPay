@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import supabase from '../supabase-client';
 import axios from 'axios';
 import LineChart from '../components/LineChart';
+import BarChart from '../components/BarChart'; // Импортируем BarChart
 import { FaTimes } from 'react-icons/fa';
 import PurchaseHistory from '../components/PurchaseHistory';
 
@@ -14,9 +15,10 @@ function Analysis() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [notification, setNotification] = useState({ message: '', type: '' });
-  const [startDate, setStartDate] = useState(''); // Состояние для начальной даты
-  const [endDate, setEndDate] = useState(''); // Состояние для конечной даты
-  const itemsPerPage = 10; // Количество записей на странице
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [chartType, setChartType] = useState('line'); // Новое состояние для типа графика
+  const itemsPerPage = 10;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,26 +36,22 @@ function Analysis() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Формирование параметров запроса для дат
         const params = {};
         if (startDate) params.start_date = startDate;
         if (endDate) params.end_date = endDate;
 
-        // Загрузка данных для графиков
         const response = await axios.get(
           `https://capypaybackend.onrender.com/api/data/price-quantity/${session?.user.id}`,
           { params }
         );
         setChartData(response.data);
 
-        // Загрузка истории покупок
         let query = supabase
           .from('Payments')
           .select('*', { count: 'exact' })
           .eq('uuid', session?.user.id)
           .order('purchase_date', { ascending: false });
 
-        // Добавление фильтра по датам, если они указаны
         if (startDate) query = query.gte('purchase_date', startDate);
         if (endDate) query = query.lte('purchase_date', endDate);
 
@@ -79,7 +77,6 @@ function Analysis() {
     }
   }, [session, currentPage, startDate, endDate]);
 
-  // Автоматическое скрытие уведомлений через 5 секунд
   useEffect(() => {
     if (notification.message) {
       const timer = setTimeout(() => {
@@ -102,11 +99,9 @@ function Analysis() {
 
       if (error) throw error;
 
-      // Обновление списка покупок после удаления
       setPurchases(purchases.filter((purchase) => purchase.id !== id));
       setNotification({ message: 'Покупка успешно удалена!', type: 'success' });
 
-      // Пересчет общего числа страниц
       let query = supabase
         .from('Payments')
         .select('*', { count: 'exact' })
@@ -117,7 +112,6 @@ function Analysis() {
       const { count } = await query;
       setTotalPages(Math.ceil(count / itemsPerPage));
 
-      // Если текущая страница стала пустой, перейти на предыдущую
       if (purchases.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
@@ -148,7 +142,6 @@ function Analysis() {
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5 px-4">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Анализ покупок</h1>
 
-      {/* Уведомления */}
       {notification.message && (
         <div
           className={`fixed top-5 right-5 z-50 alert shadow-lg animate-slide-in ${
@@ -171,7 +164,6 @@ function Analysis() {
         </div>
       )}
 
-      {/* Поля для выбора дат */}
       <div className="flex flex-col md:flex-row gap-4 w-full md:w-2/3 px-2">
         <div className="form-control">
           <label className="label">
@@ -197,16 +189,40 @@ function Analysis() {
         </div>
       </div>
 
+      {/* Переключатель типа графика */}
+      <div className="flex gap-4 w-full md:w-2/3 px-2">
+        <button
+          className={`btn ${chartType === 'line' ? 'btn-primary' : 'btn-outline'}`}
+          onClick={() => setChartType('line')}
+        >
+          Линейный график
+        </button>
+        <button
+          className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline'}`}
+          onClick={() => setChartType('bar')}
+        >
+          Столбчатый график
+        </button>
+      </div>
+
       {lineChartData !== null && (
         <>
           <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
             <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
-            <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+            {chartType === 'line' ? (
+              <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+            ) : (
+              <BarChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+            )}
           </div>
 
           <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
             <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График цены</h2>
-            <LineChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+            {chartType === 'line' ? (
+              <LineChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+            ) : (
+              <BarChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+            )}
           </div>
         </>
       )}
