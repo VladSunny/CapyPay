@@ -28,7 +28,7 @@ function Header() {
               {/* <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl">
                 CapyPay
               </h1> */}
-              <img src="public/CapyPay.png" className="h-12 md:h-30" />
+              <img src="/CapyPay.png" className="h-12 md:h-30" />
               <i className=' text-xs md:text-4xl'>„Копи-плати“</i>
             </div>
             <NavigationButton />
