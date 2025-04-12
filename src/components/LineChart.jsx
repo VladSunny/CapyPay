@@ -29,7 +29,7 @@ const LineChart = ({ chartTitle, chartData }) => {
   };
 
   return (
-    <div className="w-full bg-base-200 flex flex-row justify-center p-5 rounded-2xl" style={{ minHeight: '300px' }}>
+    <div className="w-full bg-base-200 flex flex-row justify-center md:p-5 rounded-2xl" style={{ minHeight: '300px' }}>
       <Line data={chartData} options={options} />
     </div>
   );
