@@ -7,6 +7,7 @@ function Profile() {
     gender: '',
     age: '',
     salary: '',
+    balance: '',
   });
   const [loading, setLoading] = useState(true);
   const [updateStatus, setUpdateStatus] = useState('');
@@ -34,7 +35,7 @@ function Profile() {
         try {
           const { data, error } = await supabase
             .from('Profiles')
-            .select('gender, age, salary')
+            .select('*')
             .eq('uuid', session.user.id)
             .single();
 
@@ -47,6 +48,7 @@ function Profile() {
               gender: data.gender || '',
               age: data.age || '',
               salary: data.salary || '',
+              balance: data.balance || '',
             });
           }
         } catch (err) {
@@ -68,6 +70,7 @@ function Profile() {
     // Валидация
     const parsedAge = parseInt(profileData.age);
     const parsedSalary = parseFloat(profileData.salary);
+    const parsedBalance = parseFloat(profileData.balance);
 
     if (profileData.age && (isNaN(parsedAge) || parsedAge < 0)) {
       setUpdateStatus('Ошибка: Возраст должен быть положительным числом.');
@@ -84,7 +87,8 @@ function Profile() {
         uuid: session.user.id,
         gender: profileData.gender,
         age: profileData.age ? parsedAge : null,
-        salary: profileData.salary ? parsedSalary : null
+        salary: profileData.salary ? parsedSalary : null,
+        balance : profileData.balance ? parsedBalance : null
       };
 
       const { error } = await supabase
@@ -189,6 +193,21 @@ function Profile() {
                   value={profileData.salary}
                   onChange={handleInputChange}
                   placeholder="Введите зарплату"
+                  className="input input-bordered w-full"
+                  min="0"
+                  step="0.01"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text-center">Баланс</td>
+              <td>
+                <input
+                  type="number"
+                  name="balance"
+                  value={profileData.balance}
+                  onChange={handleInputChange}
+                  placeholder="Введите текущий баланс"
                   className="input input-bordered w-full"
                   min="0"
                   step="0.01"

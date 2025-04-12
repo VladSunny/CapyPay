@@ -101,7 +101,7 @@ function Add() {
         complete: async (result) => {
           try {
             const headers = result.data[0];
-            const expectedHeaders = ['product_name', 'quantity', 'price', 'purchase_date', 'tags'];
+            const expectedHeaders = ['price', 'purchase_date', 'tags'];
             const headersMatch = expectedHeaders.every((header) => headers.includes(header));
             if (!headersMatch) {
               setNotification({
@@ -140,8 +140,8 @@ function Add() {
 
             const validRecords = records.filter(
               (record) =>
-                record.product_name &&
-                record.quantity > 0 &&
+                // record.product_name &&
+                // record.quantity > 0 &&
                 record.price >= 0 &&
                 record.purchase_date
             );
