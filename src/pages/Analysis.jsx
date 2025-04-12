@@ -6,7 +6,7 @@ import { FaTimes } from 'react-icons/fa';
 
 function Analysis() {
   const [session, setSession] = useState(null);
-  const [chartData, setChartData] = useState(null);
+  const [lineChartData, setChartData] = useState(null);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -123,17 +123,17 @@ function Analysis() {
     );
   }
 
-  if (!chartData || chartData.length === 0) {
-    return (
-      <div className="flex items-center w-full h-full flex-col">
-        <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Нет данных</h1>
-      </div>
-    );
-  }
+  // if (!lineChartData || lineChartData.length === 0) {
+  //   return (
+  //     <div className="flex items-center w-full h-full flex-col">
+  //       <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Нет данных</h1>
+  //     </div>
+  //   );
+  // }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error.message}</div>;
+  // }
 
   return (
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5 px-4">
@@ -161,16 +161,19 @@ function Analysis() {
           </div>
         </div>
       )}
+      {lineChartData !== null && (
+        <>
+          <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
+            <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
+            <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+          </div>
 
-      <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
-        <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
-        <LineChart key="quantity" chartTitle="Количество товаров" chartData={chartData?.quantity} />
-      </div>
-
-      <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
-        <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График цены</h2>
-        <LineChart key="price" chartTitle="Цена товаров" chartData={chartData?.price} />
-      </div>
+          <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
+            <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График цены</h2>
+            <LineChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+          </div>
+        </>
+      )}
 
       <div className="flex items-center w-full px-2 md:w-2/3 flex-col bg-base-300 p-5 rounded-3xl">
         <h2 className="text-secondary text-2xl md:text-4xl font-extrabold mb-4">История покупок</h2>
