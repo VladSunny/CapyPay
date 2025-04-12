@@ -249,17 +249,6 @@ function Add() {
         className="z-0 bg-base-100 mx-2 md:w-5/6 xl:w-1/3 p-6 rounded-2xl shadow-xl mt-5 border border-base-300 transition-all duration-300 hover:shadow-2xl"
       >
         <div className="space-y-6">
-          {/* <div className="flex items-center space-x-3">
-            <FaBox className="text-primary text-xl" />
-            <input
-              type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              placeholder="Название товара"
-              className="input input-bordered w-full focus:ring-2 focus:ring-primary"
-            />
-          </div> */}
-
           <div className="flex items-center space-x-3">
             <FaBox className="text-primary text-xl" />
             <input
@@ -281,7 +270,7 @@ function Add() {
               min="0"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              placeholder="Цена (общая)"
+              placeholder="Общая стоимость"
               className="input input-bordered w-full focus:ring-2 focus:ring-primary"
             />
           </div>

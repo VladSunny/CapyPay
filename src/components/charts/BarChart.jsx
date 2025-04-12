@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = ({ chartTitle, chartData }) => {
+const BarChart = ({ chartTitle, chartData, xAxisLabel, yAxisLabel }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false, // Позволяет лучше контролировать высоту
@@ -68,6 +68,15 @@ const BarChart = ({ chartTitle, chartData }) => {
           },
           color: '#4B5563', // Серый для меток
         },
+        title: {
+          display: true,
+          text: xAxisLabel,
+          font: {
+            size: 14,
+            family: "'Inter', sans-serif",
+          },
+          color: '#374151',
+        },
       },
       y: {
         grid: {
@@ -81,6 +90,15 @@ const BarChart = ({ chartTitle, chartData }) => {
           },
           color: '#4B5563',
           beginAtZero: true, // Начинаем с нуля
+        },
+        title: {
+          display: true,
+          text: yAxisLabel,
+          font: {
+            size: 14,
+            family: "'Inter', sans-serif",
+          },
+          color: '#374151',
         },
       },
     },

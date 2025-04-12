@@ -15,7 +15,7 @@ import "../../styles/LineChart.css";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const LineChart = ({ chartTitle, chartData }) => {
+const LineChart = ({ chartTitle, chartData, xAxisLabel, yAxisLabel }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -68,6 +68,16 @@ const LineChart = ({ chartTitle, chartData }) => {
             size: 12,
           },
         },
+        title: {
+          display: true,
+          text: xAxisLabel,
+          font: {
+            size: 14,
+            weight: 'bold',
+          },
+          color: '#1F2937',
+          padding: 10,
+        },
       },
       y: {
         grid: {
@@ -79,6 +89,16 @@ const LineChart = ({ chartTitle, chartData }) => {
           font: {
             size: 12,
           },
+          padding: 10,
+        },
+        title: {
+          display: true,
+          text: yAxisLabel,
+          font: {
+            size: 14,
+            weight: 'bold',
+          },
+          color: '#1F2937',
           padding: 10,
         },
       },

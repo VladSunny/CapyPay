@@ -217,17 +217,17 @@ function Analysis() {
         <>
           <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
             {chartType === 'line' ? (
-              <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} />
+              <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} xAxisLabel={'Дата покупки'} yAxisLabel={'Количество товаров'} />
             ) : (
-              <BarChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} />
+              <BarChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} xAxisLabel={'Дата покупки'} yAxisLabel={'Количество товаров'} />
             )}
           </div>
 
           <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
             {chartType === 'line' ? (
-              <LineChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} />
+              <LineChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} xAxisLabel={'Дата покупки'} yAxisLabel={'Цена товаров'} />
             ) : (
-              <BarChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} />
+              <BarChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} xAxisLabel={'Дата покупки'} yAxisLabel={'Цена товаров'} />
             )}
           </div>
         </>
