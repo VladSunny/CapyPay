@@ -1,7 +1,6 @@
-// MyChartComponent.jsx
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { 
+import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -9,22 +8,15 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const LineChart = ({ chartTitle, chartData }) => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
@@ -37,7 +29,7 @@ const LineChart = ({ chartTitle, chartData }) => {
   };
 
   return (
-    <div className='w-full bg-base-200 flex flex-row justify-center p-5 rounded-2xl'>
+    <div className="w-full bg-base-200 flex flex-row justify-center p-5 rounded-2xl" style={{ minHeight: '300px' }}>
       <Line data={chartData} options={options} />
     </div>
   );
