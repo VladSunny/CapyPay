@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 
-import "../styles/LineChart.css";
+import "../../styles/LineChart.css";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import supabase from '../supabase-client';
 import axios from 'axios';
-import LineChart from '../components/LineChart';
-import BarChart from '../components/BarChart'; // Импортируем BarChart
+import LineChart from '../components/charts/LineChart';
+import BarChart from '../components/charts/BarChart'; // Импортируем BarChart
 import { FaTimes } from 'react-icons/fa';
 import PurchaseHistory from '../components/PurchaseHistory';
+import PieChart from '../components/charts/PieChart';
 
 function Analysis() {
   const [session, setSession] = useState(null);
-  const [lineChartData, setChartData] = useState(null);
+  const [lineBarChartData, setLineBarChartData] = useState(null);
+  const [pieChartData, setPieChartData] = useState(null);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +46,13 @@ function Analysis() {
           `https://capypaybackend.onrender.com/api/data/price-quantity/line-chart/${session?.user.id}`,
           { params }
         );
-        setChartData(response.data);
+        setLineBarChartData(response.data);
+
+        const response2 = await axios.get(
+          `https://capypaybackend.onrender.com/api/data/price-quantity/pie-chart/${session?.user.id}`,
+          { params }
+        );
+        setPieChartData(response2.data);
 
         let query = supabase
           .from('Payments')
@@ -205,24 +213,36 @@ function Analysis() {
         </button>
       </div>
 
-      {lineChartData !== null && (
+      {lineBarChartData !== null && (
         <>
           <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
-            <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
             {chartType === 'line' ? (
-              <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+              <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} />
             ) : (
-              <BarChart key="quantity" chartTitle="Количество товаров" chartData={lineChartData?.quantity} />
+              <BarChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} />
             )}
           </div>
 
           <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
-            <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График цены</h2>
             {chartType === 'line' ? (
-              <LineChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+              <LineChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} />
             ) : (
-              <BarChart key="price" chartTitle="Цена товаров" chartData={lineChartData?.price} />
+              <BarChart key="price" chartTitle="Цена товаров" chartData={lineBarChartData?.price} />
             )}
+          </div>
+        </>
+      )}
+
+      {pieChartData !== null && (
+        <>
+          <div className="flex items-center justify-center w-full h-max flex-col">
+            <div className="flex items-center w-full md:w-1/3 px-2 h-max flex-col md:mb-5">
+              <PieChart chartTitle="Количество товаров" chartData={pieChartData?.quantity} />
+            </div>
+
+            <div className="flex items-center w-full md:w-1/3 h-max px-2 flex-col">
+              <PieChart chartTitle="Цена товаров" chartData={pieChartData?.price} />
+            </div>
           </div>
         </>
       )}
