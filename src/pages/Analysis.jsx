@@ -46,7 +46,11 @@ function Analysis() {
   }, [session]);
 
   if (!session) {
-    return <div>Вы не вошли в аккаунт</div>;
+    return (
+      <div className="flex items-center w-full h-full flex-col">
+        <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Вы не вошли в аккаунт</h1>
+      </div>
+    );
   }
 
   if (loading) {
@@ -59,24 +63,28 @@ function Analysis() {
     );
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (!chartData || !chartData.quantity || !chartData.price) {
+    return (
+      <div className="flex items-center w-full h-full flex-col">
+        <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Нет данных для отображения</h1>
+      </div>
+    );
   }
 
-  if (!chartData || !chartData.quantity || !chartData.price) {
-    return <div>Нет данных для отображения</div>;
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Анализ покупок</h1>
 
-      <div className="flex items-center w-full md:w-2/3 h-max flex-col">
+      <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
         <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
         <LineChart key="quantity" chartTitle="Количество товаров" chartData={chartData.quantity} />
       </div>
 
-      <div className="flex items-center w-full md:w-2/3 flex-col">
+      <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
         <h2 className='text-secondary text-2xl md:text-4xl font-extrabold'>График цены</h2>
         <LineChart key="price" chartTitle="Цена товаров" chartData={chartData.price} />
       </div>
