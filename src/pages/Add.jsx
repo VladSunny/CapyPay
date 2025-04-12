@@ -98,11 +98,11 @@ function Add() {
         complete: async (result) => {
           try {
             const headers = result.data[0];
-            const expectedHeaders = ['product_name', 'quantity', 'price', 'purchase_date', 'tags'];
+            const expectedHeaders = ['price', 'purchase_date', 'tags'];
             const headersMatch = expectedHeaders.every((header) => headers.includes(header));
             if (!headersMatch) {
               setNotification({
-                message: 'CSV должен содержать заголовки: product_name, quantity, price, purchase_date, tags',
+                message: 'CSV должен содержать заголовки: quantity, price, purchase_date, tags',
                 type: 'error',
               });
               return;
@@ -127,7 +127,6 @@ function Add() {
               }
 
               return {
-                product_name: record.product_name || '',
                 quantity: parsedQuantity || 0,
                 price: parseFloat(record.price) || 0,
                 purchase_date: record.purchase_date || '',
@@ -137,7 +136,6 @@ function Add() {
 
             const validRecords = records.filter(
               (record) =>
-                record.product_name &&
                 record.quantity > 0 &&
                 record.price >= 0 &&
                 record.purchase_date
