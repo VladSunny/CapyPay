@@ -29,7 +29,7 @@ const PieChart = ({ chartTitle, chartData }) => {
     
 
     return (
-        <div className="flex flex-row justify-center w-full bg-base-100 border-2 border-secondary rounded-2xl shadow-lg p-4 md:p-6 transition-all duration-300 hover:shadow-xl animate-fade-in">
+        <div className="flex flex-row justify-center w-full bg-base-100 border-2 border-secondary rounded-2xl shadow-lg p-4 md:p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
         <Pie data={chartData} options={options} />
         </div>
     );

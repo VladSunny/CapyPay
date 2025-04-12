@@ -43,7 +43,6 @@ function PurchaseHistory({
             <table className="table w-full">
               <thead>
                 <tr>
-                  <th>Название товара</th>
                   <th>Количество</th>
                   <th>Цена</th>
                   <th>Дата покупки</th>
@@ -54,7 +53,6 @@ function PurchaseHistory({
               <tbody>
                 {purchases.map((purchase) => (
                   <tr key={purchase.id}>
-                    <td>{purchase.product_name || '-'}</td>
                     <td>{purchase.quantity || 0}</td>
                     <td>{purchase.price ? `$${purchase.price.toFixed(2)}` : '-'}</td>
                     <td>
