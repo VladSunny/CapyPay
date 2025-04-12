@@ -41,7 +41,7 @@ function Analysis() {
         if (endDate) params.end_date = endDate;
 
         const response = await axios.get(
-          `https://capypaybackend.onrender.com/api/data/price-quantity/${session?.user.id}`,
+          `https://capypaybackend.onrender.com/api/data/price-quantity/line-chart/${session?.user.id}`,
           { params }
         );
         setChartData(response.data);
