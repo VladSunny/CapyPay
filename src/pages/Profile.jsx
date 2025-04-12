@@ -134,7 +134,7 @@ function Profile() {
       <div className="flex items-center w-full md:w-5/6 xl:w-1/3 flex-col mt-5 p-5">
         <h2 className="text-secondary text-2xl md:text-3xl font-extrabold mb-4">Информация об аккаунте</h2>
         <p className="text-lg">Email: {session.user.email}</p>
-        <p className="text-lg">ID пользователя: {session.user.id}</p>
+        {/* <p className="text-lg">ID пользователя: {session.user.id}</p> */}
       </div>
 
       <form
