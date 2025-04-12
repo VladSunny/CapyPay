@@ -45,14 +45,15 @@ const TestLine = () => {
         data: [12, 19, 3, 5, 2, 3],
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+        borderWidth: 2,
+        fill: false
       },
       {
         label: '# of Votes',
         data: [2, 3, 4, 5, 6, 7],
         backgroundColor: 'rgba(53, 162, 235, 0.2)',
         borderColor: 'rgba(53, 162, 235, 1)',
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };
