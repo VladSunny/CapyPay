@@ -10,6 +10,7 @@ import PieChart from '../components/charts/PieChart';
 function Analysis() {
   const [session, setSession] = useState(null);
   const [lineBarChartData, setLineBarChartData] = useState(null);
+  const [generalLineBarChartData, setGeneralLineBarChartData] = useState(null);
   const [pieChartData, setPieChartData] = useState(null);
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +54,12 @@ function Analysis() {
           { params }
         );
         setPieChartData(response2.data);
+
+        const response3 = await axios.get(
+          `https://capypaybackend.onrender.com/api/data/price-general/line-chart/${session?.user.id}`,
+          { params }
+        );
+        setGeneralLineBarChartData(response3.data);
 
         let query = supabase
           .from('Payments')
@@ -215,6 +222,14 @@ function Analysis() {
 
       {lineBarChartData !== null && (
         <>
+          <div className="flex items-center w-full px-2 md:w-2/3 flex-col">
+            {chartType === 'line' ? (
+              <LineChart key="total" chartTitle="Общая сумма" chartData={generalLineBarChartData?.price} xAxisLabel={'Дата покупки'} yAxisLabel={'Общая сумма'} />
+            ) : (
+              <BarChart key="total" chartTitle="Общая сумма" chartData={generalLineBarChartData?.price} xAxisLabel={'Дата покупки'} yAxisLabel={'Общая сумма'} />
+            )}
+          </div>
+
           <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
             {chartType === 'line' ? (
               <LineChart key="quantity" chartTitle="Количество товаров" chartData={lineBarChartData?.quantity} xAxisLabel={'Дата покупки'} yAxisLabel={'Количество товаров'} />
