@@ -68,12 +68,14 @@ function Analysis() {
   return (
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Анализ покупок</h1>
-      <div className="flex items-center w-full md:w-2/3 flex-col">
+
+      <div className="flex items-center w-full md:w-2/3 h-max flex-col">
         <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
         <LineChart key="quantity" chartTitle="Количество товаров" chartData={chartData.quantity} />
       </div>
+
       <div className="flex items-center w-full md:w-2/3 flex-col">
-        <h2 className='text-secondary text-4xl font-extrabold'>График цены</h2>
+        <h2 className='text-secondary text-2xl md:text-4xl font-extrabold'>График цены</h2>
         <LineChart key="price" chartTitle="Цена товаров" chartData={chartData.price} />
       </div>
     </div>
