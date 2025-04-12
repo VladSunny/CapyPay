@@ -28,7 +28,7 @@ function Header() {
               <Link to="/">
                 <img src="/CapyPay.png" className="h-12 md:h-30" />
               </Link>
-              <i className=' text-xs md:text-4xl'>„Копи-плати“</i>
+              <i className=' text-xs md:text-4xl'>Копи-плати</i>
             </div>
             <NavigationButton />
         </div>

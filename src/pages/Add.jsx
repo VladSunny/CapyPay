@@ -131,7 +131,7 @@ function Add() {
 
               return {
                 product_name: record.product_name || '',
-                quantity: parsedQuantity || 1,
+                quantity: parsedQuantity || 0,
                 price: parseFloat(record.price) || 0,
                 purchase_date: record.purchase_date || '',
                 tags: tagsArray,

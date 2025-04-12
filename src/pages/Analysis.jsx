@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import supabase from '../supabase-client';
 import axios from 'axios';
 import LineChart from '../components/LineChart';
+import { FaTimes } from 'react-icons/fa';
 
 function Analysis() {
   const [session, setSession] = useState(null);
@@ -11,6 +12,7 @@ function Analysis() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [notification, setNotification] = useState({ message: '', type: '' });
   const itemsPerPage = 10; // Количество записей на странице
 
   useEffect(() => {
@@ -60,9 +62,46 @@ function Analysis() {
     }
   }, [session, currentPage]);
 
+  // Автоматическое скрытие уведомлений через 5 секунд
+  useEffect(() => {
+    if (notification.message) {
+      const timer = setTimeout(() => {
+        setNotification({ message: '', type: '' });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      setNotification({ message: 'Удаление...', type: 'info' });
+      const { error } = await supabase.from('Payments').delete().eq('id', id).eq('uuid', session?.user.id);
+
+      if (error) throw error;
+
+      // Обновление списка покупок после удаления
+      setPurchases(purchases.filter((purchase) => purchase.id !== id));
+      setNotification({ message: 'Покупка успешно удалена!', type: 'success' });
+
+      // Пересчет общего числа страниц
+      const { count } = await supabase
+        .from('Payments')
+        .select('*', { count: 'exact' })
+        .eq('user_id', session?.user.id);
+      setTotalPages(Math.ceil(count / itemsPerPage));
+
+      // Если текущая страница стала пустой, перейти на предыдущую
+      if (purchases.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    } catch (err) {
+      setNotification({ message: `Ошибка удаления: ${err.message}`, type: 'error' });
     }
   };
 
@@ -84,6 +123,14 @@ function Analysis() {
     );
   }
 
+  if (!chartData || chartData.length === 0) {
+    return (
+      <div className="flex items-center w-full h-full flex-col">
+        <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Нет данных</h1>
+      </div>
+    );
+  }
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
@@ -91,6 +138,29 @@ function Analysis() {
   return (
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5 px-4">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Анализ покупок</h1>
+
+      {/* Уведомления */}
+      {notification.message && (
+        <div
+          className={`fixed top-5 right-5 z-50 alert shadow-lg animate-slide-in ${
+            notification.type === 'error'
+              ? 'alert-error'
+              : notification.type === 'success'
+              ? 'alert-success'
+              : 'alert-info'
+          }`}
+        >
+          <div>
+            <span>{notification.message}</span>
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => setNotification({ message: '', type: '' })}
+            >
+              <FaTimes />
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
         <h2 className="text-secondary text-2xl md:text-4xl font-extrabold">График количества</h2>
@@ -117,6 +187,7 @@ function Analysis() {
                     <th>Цена</th>
                     <th>Дата покупки</th>
                     <th>Теги</th>
+                    <th></th> {/* Колонка для кнопки удаления */}
                   </tr>
                 </thead>
                 <tbody>
@@ -138,6 +209,15 @@ function Analysis() {
                               </span>
                             ))
                           : '-'}
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-error btn-sm"
+                          onClick={() => handleDelete(purchase.id)}
+                          title="Удалить покупку"
+                        >
+                          <FaTimes />
+                        </button>
                       </td>
                     </tr>
                   ))}
