@@ -40,9 +40,17 @@ function NavigationButton() {
   return (
     <>
       <div>
-        <div className="dropdown dropdown-start">
+        <div className="dropdown dropdown-center">
           <div tabIndex={0} role="button" className="btn btn-sm md:btn-lg lg:btn-xl m-1 btn-primary">Навигация</div>
           <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-10 w-max p-2 shadow-sm space-y-2">
+            <Link to="/profile" className='w-full'>
+              <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Профиль</button>
+            </Link>
+
+            <Link to="/" className='w-full'>
+              <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Главная</button>
+            </Link>
+
             <Link to="/" className='w-full'>
               <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Рекомендации</button>
             </Link>
@@ -53,10 +61,6 @@ function NavigationButton() {
 
             <Link to="/add" className='w-full'>
               <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Добавить</button>
-            </Link>
-
-            <Link to="/" className='w-full'>
-              <button className='btn btn-sm md:btn-md lg:btn-lg btn-secondary w-full'>Главная</button>
             </Link>
 
             {session ? (

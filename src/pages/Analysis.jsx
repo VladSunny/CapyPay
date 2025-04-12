@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import supabase from '../supabase-client';
-import TestLine from '../components/TestLine';
 import axios from 'axios';
-import TestBarChart from '../components/TestBarChart';
-import TestPieChart from '../components/TestPieChart';
-import { Line } from 'react-chartjs-2';
 import LineChart from '../components/LineChart';
 
 function Analysis() {

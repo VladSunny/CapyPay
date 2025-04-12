@@ -6,6 +6,7 @@ import Header from './components/Header.jsx';
 import Home from './pages/Home.jsx';
 import Add from './pages/Add.jsx';
 import Analysis from './pages/Analysis.jsx';
+import Profile from './pages/Profile.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<Home />} />
             <Route path="/add" element={<Add />} />
             <Route path="/analysis" element={<Analysis />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </div>
