@@ -212,7 +212,7 @@ function Add() {
     if (!session) {
         return (
             <div className="flex items-center w-full h-full flex-col">
-                <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Войдите в аккаунт</h1>
+                <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Войдите в аккаунт</h1>
             </div>
         );
     }

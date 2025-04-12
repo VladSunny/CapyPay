@@ -54,7 +54,13 @@ function Analysis() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center w-full h-full flex-col">
+        <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Подождите...</h1>
+        <span className="loading loading-dots loading-xl"></span>
+        <div className="flex items-center w-2/3 h-1/2 flex-col skeleton"></div>
+      </div>
+    );
   }
 
   if (error) {
