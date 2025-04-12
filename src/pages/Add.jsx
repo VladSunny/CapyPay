@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import supabase from '../supabase-client';
 import Papa from 'papaparse';
-import { FaTimes, FaTag, FaBox, FaDollarSign, FaCalendarAlt, FaFileCsv } from 'react-icons/fa';
-import '../styles/Add.css'; // Импорт стилей
+import { FaTimes, FaTag, FaBox, FaDollarSign, FaCalendarAlt, FaFileCsv, FaDownload } from 'react-icons/fa';
+import '../styles/Add.css';
 
 function Add() {
   const [session, setSession] = useState(null);
@@ -68,7 +68,6 @@ function Add() {
 
     let totalRecordsAdded = 0;
 
-    // Обработка данных формы
     const isFormFilled = productName && quantity && price && purchaseDate;
     if (isFormFilled) {
       const parsedQuantity = parseInt(quantity);
@@ -95,13 +94,12 @@ function Add() {
       totalRecordsAdded += 1;
     }
 
-    // Обработка CSV-файла
     if (csvFile) {
       Papa.parse(csvFile, {
         complete: async (result) => {
           try {
             const headers = result.data[0];
-            const expectedHeaders = ['price', 'purchase_date', 'tags'];
+            const expectedHeaders = ['product_name', 'quantity', 'price', 'purchase_date', 'tags'];
             const headersMatch = expectedHeaders.every((header) => headers.includes(header));
             if (!headersMatch) {
               setNotification({
@@ -140,8 +138,8 @@ function Add() {
 
             const validRecords = records.filter(
               (record) =>
-                // record.product_name &&
-                // record.quantity > 0 &&
+                record.product_name &&
+                record.quantity > 0 &&
                 record.price >= 0 &&
                 record.purchase_date
             );
@@ -188,7 +186,6 @@ function Add() {
       }
     }
 
-    // Очистка формы
     if (isFormFilled) {
       setProductName('');
       setQuantity('');
@@ -212,7 +209,6 @@ function Add() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Автоматическое скрытие уведомлений через 5 секунд
   useEffect(() => {
     if (notification.message) {
       const timer = setTimeout(() => {
@@ -234,7 +230,6 @@ function Add() {
     <div className="flex items-center w-full h-full flex-col px-4">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5 mb-8">Добавить покупку</h1>
 
-      {/* Уведомления */}
       {notification.message && (
         <div
           className={`fixed top-5 right-5 z-50 alert shadow-lg animate-slide-in ${
@@ -258,7 +253,6 @@ function Add() {
         className="z-0 bg-base-100 mx-2 md:w-5/6 xl:w-1/3 p-6 rounded-2xl shadow-xl mt-5 border border-base-300 transition-all duration-300 hover:shadow-2xl"
       >
         <div className="space-y-6">
-          {/* Название товара */}
           <div className="flex items-center space-x-3">
             <FaBox className="text-primary text-xl" />
             <input
@@ -270,7 +264,6 @@ function Add() {
             />
           </div>
 
-          {/* Количество */}
           <div className="flex items-center space-x-3">
             <FaBox className="text-primary text-xl" />
             <input
@@ -284,7 +277,6 @@ function Add() {
             />
           </div>
 
-          {/* Цена */}
           <div className="flex items-center space-x-3">
             <FaDollarSign className="text-primary text-xl" />
             <input
@@ -298,7 +290,6 @@ function Add() {
             />
           </div>
 
-          {/* Дата покупки */}
           <div className="flex items-center space-x-3">
             <FaCalendarAlt className="text-primary text-xl" />
             <input
@@ -309,7 +300,6 @@ function Add() {
             />
           </div>
 
-          {/* Теги */}
           <div className="flex items-start space-x-3">
             <FaTag className="text-primary text-xl mt-2" />
             <div className="w-full">
@@ -335,7 +325,6 @@ function Add() {
             </div>
           </div>
 
-          {/* Загрузка CSV */}
           <div className="flex items-center space-x-3">
             <FaFileCsv className="text-primary text-xl" />
             <div className="w-full">
@@ -345,7 +334,17 @@ function Add() {
                 onChange={handleFileChange}
                 className="file-input file-input-bordered w-full focus:ring-2 focus:ring-primary"
               />
-              <label className="text-sm text-gray-500 mt-1">Максимальный размер: 2MB</label>
+              <div className="flex items-center space-x-2 mt-2">
+                <label className="text-sm text-gray-500">Максимальный размер: 2MB</label>
+                <a
+                  href="/sample_test.csv"
+                  download
+                  className="btn btn-ghost btn-sm text-primary hover:bg-primary hover:text-white"
+                >
+                  <FaDownload className="mr-1" />
+                  Скачать пример CSV
+                </a>
+              </div>
             </div>
           </div>
         </div>
