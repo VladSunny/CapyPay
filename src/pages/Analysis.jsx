@@ -13,6 +13,8 @@ function Analysis() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [notification, setNotification] = useState({ message: '', type: '' });
+  const [startDate, setStartDate] = useState(''); // Состояние для начальной даты
+  const [endDate, setEndDate] = useState(''); // Состояние для конечной даты
   const itemsPerPage = 10; // Количество записей на странице
 
   useEffect(() => {
@@ -31,19 +33,33 @@ function Analysis() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Формирование параметров запроса для дат
+        const params = {};
+        if (startDate) params.start_date = startDate;
+        if (endDate) params.end_date = endDate;
+
         // Загрузка данных для графиков
         const response = await axios.get(
-          `https://capypaybackend.onrender.com/api/data/price-quantity/${session?.user.id}`
+          `https://capypaybackend.onrender.com/api/data/price-quantity/${session?.user.id}`,
+          { params }
         );
         setChartData(response.data);
 
         // Загрузка истории покупок
-        const { data: purchasesData, count, error } = await supabase
+        let query = supabase
           .from('Payments')
           .select('*', { count: 'exact' })
           .eq('uuid', session?.user.id)
-          .order('purchase_date', { ascending: false })
-          .range((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage - 1);
+          .order('purchase_date', { ascending: false });
+
+        // Добавление фильтра по датам, если они указаны
+        if (startDate) query = query.gte('purchase_date', startDate);
+        if (endDate) query = query.lte('purchase_date', endDate);
+
+        const { data: purchasesData, count, error } = await query.range(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage - 1
+        );
 
         if (error) throw error;
 
@@ -60,7 +76,7 @@ function Analysis() {
     if (session) {
       fetchData();
     }
-  }, [session, currentPage]);
+  }, [session, currentPage, startDate, endDate]);
 
   // Автоматическое скрытие уведомлений через 5 секунд
   useEffect(() => {
@@ -90,10 +106,14 @@ function Analysis() {
       setNotification({ message: 'Покупка успешно удалена!', type: 'success' });
 
       // Пересчет общего числа страниц
-      const { count } = await supabase
+      let query = supabase
         .from('Payments')
         .select('*', { count: 'exact' })
-        .eq('user_id', session?.user.id);
+        .eq('uuid', session?.user.id);
+      if (startDate) query = query.gte('purchase_date', startDate);
+      if (endDate) query = query.lte('purchase_date', endDate);
+
+      const { count } = await query;
       setTotalPages(Math.ceil(count / itemsPerPage));
 
       // Если текущая страница стала пустой, перейти на предыдущую
@@ -123,18 +143,6 @@ function Analysis() {
     );
   }
 
-  // if (!lineChartData || lineChartData.length === 0) {
-  //   return (
-  //     <div className="flex items-center w-full h-full flex-col">
-  //       <h1 className="font-bold text-primary text-2xl md:text-3xl xl:text-4xl mt-5">Нет данных</h1>
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
-
   return (
     <div className="flex items-center w-full h-full flex-col space-y-7 mb-5 px-4">
       <h1 className="font-bold text-primary text-3xl md:text-5xl xl:text-6xl mt-5">Анализ покупок</h1>
@@ -161,6 +169,33 @@ function Analysis() {
           </div>
         </div>
       )}
+
+      {/* Поля для выбора дат */}
+      <div className="flex flex-col md:flex-row gap-4 w-full md:w-2/3 px-2">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Начальная дата</span>
+          </label>
+          <input
+            type="date"
+            className="input input-bordered"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Конечная дата</span>
+          </label>
+          <input
+            type="date"
+            className="input input-bordered"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+      </div>
+
       {lineChartData !== null && (
         <>
           <div className="flex items-center w-full px-2 md:w-2/3 h-max flex-col">
