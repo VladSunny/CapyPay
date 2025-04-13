@@ -120,12 +120,12 @@ function Recommendations() {
             <span className="label-text">Начальная дата</span>
           </label>
           <input
-            type="date"
+            type="date"qwertyu
             className="input input-bordered"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-        </div>
+        </div> 
         <div className="form-control">
           <label className="label">
             <span className="label-text">Конечная дата</span>
@@ -145,7 +145,7 @@ function Recommendations() {
         onClick={handleGetAnalysis}
         disabled={loading}
       >
-        Получить общий анализ от YandexGPT (пробная функцию)
+        Получить общий анализ от YandexGPT (пробная функция)
       </button>
 
       {analysisResult ? (
