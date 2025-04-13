@@ -6,7 +6,6 @@ import '../styles/Add.css';
 
 function Add() {
   const [session, setSession] = useState(null);
-  // const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
@@ -14,6 +13,13 @@ function Add() {
   const [tagInput, setTagInput] = useState('');
   const [csvFile, setCsvFile] = useState(null);
   const [notification, setNotification] = useState({ message: '', type: '' });
+
+  const category_top20_list = [
+    'Супермаркеты', 'Дом и ремонт', 'Фастфуд', 'Одежда и обувь', 'Автоуслуги',
+    'Топливо', 'Рестораны', 'Финансы', 'Медицина', 'Маркетплейсы',
+    'Различные товары', 'Турагентства', 'Другое', 'Авиабилеты', 'Аптеки',
+    'Такси', 'Красота', 'Сервис', 'Развлечения', 'Электроника и техника', 'Отели'
+  ];
 
   const addTag = (e) => {
     if (e.key === 'Enter' || e.key === ',' || e.key === ' ') {
@@ -23,6 +29,12 @@ function Add() {
         setTags([...tags, newTag]);
         setTagInput('');
       }
+    }
+  };
+
+  const addPredefinedTag = (tag) => {
+    if (!tags.includes(tag)) {
+      setTags([...tags, tag]);
     }
   };
 
@@ -304,9 +316,23 @@ function Add() {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={addTag}
-                placeholder="Введите тег и нажмите Enter, запятую или пробел"
-                className="input input-bordered w-full focus:ring-2 focus:ring-primary"
+                placeholder="Введите свой тег и нажмите Enter, запятую или пробел"
+                className="input input-bordered w-full focus:ring-2 focus:ring-primary mb-2"
               />
+              <div className="flex flex-wrap gap-2">
+                {category_top20_list.map((category, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`badge badge-outline badge-lg transition-transform hover:scale-105 ${
+                      tags.includes(category) ? 'badge-primary' : ''
+                    }`}
+                    onClick={() => addPredefinedTag(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
