@@ -33,13 +33,12 @@ function Recommendations() {
     }
   }, [notification]);
 
-  const handleGetAnalysis = async () => {
+  const handleGetAnalysis = async (event) => {
+    event.preventDefault(); // Предотвращаем стандартное поведение браузера
     if (!startDate || !endDate) {
       setNotification({ message: 'Пожалуйста, выберите начальную и конечную дату', type: 'error' });
       return;
     }
-
-    print(startDate, endDate);
 
     setLoading(true);
     try {
@@ -54,7 +53,6 @@ function Recommendations() {
 
       console.log('Response data:', response.data);
 
-      // Проверяем, есть ли поле analysis в ответе
       if (!response.data.analysis) {
         throw new Error('Ответ от сервера не содержит анализа');
       }
@@ -77,12 +75,10 @@ function Recommendations() {
     );
   }
 
-  // Форматируем текст анализа, чтобы поддерживать списки
   const formatAnalysis = (text) => {
     if (!text) return null;
     const lines = text.split('\n').filter(line => line.trim());
     return lines.map((line, index) => {
-      // Проверяем, начинается ли строка с числа и точки (например, "1. ")
       const isListItem = /^\d+\.\s/.test(line);
       return (
         <p key={index} className={isListItem ? 'ml-4' : ''}>
@@ -144,11 +140,12 @@ function Recommendations() {
       </div>
 
       <button
+        type="button" // Явно указываем тип кнопки
         className={`btn btn-primary w-full md:w-2/3 ${loading ? 'loading' : ''}`}
         onClick={handleGetAnalysis}
         disabled={loading}
       >
-        Получить общий анализ от YandexGPT
+        Получить общий анализ от YandexGPT (пробная функцию)
       </button>
 
       {analysisResult ? (
